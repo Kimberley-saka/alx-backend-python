@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""type-annotated function make_multiplier that takes
+"""type-annotated function make_multiplier
 """
 import typing
 
