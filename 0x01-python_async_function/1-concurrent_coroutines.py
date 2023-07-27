@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import asyncio
+from typing import List
+wait_random = __import__('0-basic_async_syntax').wait_random
 """
 Imported wait_random from the previous python file that you’ve written
 and write an async routine called wait_n that takes in 2 int arguments
@@ -7,9 +10,6 @@ with the specified max_delay. wait_n should return the list of all
 the delays (float values). The list of the delays should be in ascending
 order without using sort() because of concurrency.
 """
-wait_random = __import__('0-basic_async_syntax').wait_random
-from typing import List
-import asyncio
 
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
