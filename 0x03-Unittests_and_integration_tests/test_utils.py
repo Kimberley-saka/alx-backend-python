@@ -4,7 +4,7 @@ Test access nested map in utils.py
 """
 import unittest
 from parameterized import parameterized
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 from unittest.mock import patch, Mock
 
 
@@ -57,3 +57,41 @@ class TestGetJson(unittest.TestCase):
         with patch('requests.get', return_value=mock_response):
             response = get_json(test_url)
             self.assertEqual(response, expected_result)
+
+
+class TestMemoize(unittest.TestCase):
+    """
+    test memoize
+    """
+    class TestClass:
+        """
+        test class
+        """
+        def a_method(self):
+            """
+            test func
+            """
+            return 42
+
+        @memoize
+        def a_property(self):
+            """
+            test func
+            """
+            return self.a_method()
+
+    @patch.object(TestClass, 'a_method')
+    def test_memoize(self, mock_a_method):
+        """
+        test memoize
+        """
+        instance = self.TestClass()
+
+        mock_a_method.return_value = 42
+
+        result1 = instance.a_property
+        result2 = instance.a_property
+
+        self.assertEqual(result1, 42)
+        self.assertEqual(result2, 42)
+        mock_a_method.assert_called_once()
