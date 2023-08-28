@@ -87,12 +87,14 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def SetUpClass(cls):
         """
+        setup
         """
         cls.get_patcher = patch("requests.get", side_effect=HTTPError)
 
     @classmethod
     def tearDownClass(cls):
         """
+        teardown
         """
         cls.get_patcher.stop()
 
@@ -107,6 +109,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos_with_license(self):
         """
+        test
         """
         self.assertEqual(
             GithubOrgClient("Google").public_repos(license="apache-2.0"),
