@@ -4,7 +4,9 @@ Test client.py
 """
 import unittest
 from unittest.mock import patch, PropertyMock, MagicMock
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
+from urllib.error import HTTPError
+from fixtures import TEST_PAYLOAD
 from client import GithubOrgClient
 
 
@@ -71,3 +73,38 @@ class TestGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("Google")
         result = client.has_license(repo, license_key)
         self.assertEqual(expected_result, result)
+
+
+@parameterized_class(
+    ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
+    TEST_PAYLOAD
+)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """
+    Intergration test GithuOrgClient.public_repos
+    """
+
+    @classmethod
+    def SetUpClass(cls):
+        """
+        """
+        cls.get_patcher = patch("requests.get", side_effect=HTTPError)
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        """
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """
+        test public repo: integration
+        """
+        _ = GithubOrgClient('Google')
+        assert True
+
+    def test_public_repos_with_license(self):
+        """
+        """
+        _ = GithubOrgClient("Google")
+        assert True
