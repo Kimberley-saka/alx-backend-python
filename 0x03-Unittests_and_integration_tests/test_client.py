@@ -43,6 +43,7 @@ class TestGithubOrgClient(unittest.TestCase):
                 "https://api.github.com/users/google/repos",
             )
 
+    @patch("client.get_json", return_value=[{"name": "Google"}])
     def test_public_repos(self, mock_get_json: MagicMock):
         with patch.object(
             GithubOrgClient,
@@ -50,8 +51,8 @@ class TestGithubOrgClient(unittest.TestCase):
             new_callable=PropertyMock,
             return_value="https://api.github.com/users/google/repos"
         ) as mock_org:
-            client = GithubOrgClient("google")
+            client = GithubOrgClient("Google")
             result = client.public_repos()
-            self.assertEqual(result, ["google"])
+            self.assertEqual(result, ["Google"])
             mock_get_json.assert_called_once
             mock_org.assert_called_once
